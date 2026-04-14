@@ -14,11 +14,11 @@ export const useRegisterView = () => {
     const { control, handleSubmit, formState: { errors } } = useForm<RegisterData>({
         resolver: yupResolver(registerSheme),
         defaultValues: {
-            name: "teste",
-            email: "teste4@teste.com",
-            phone: "35998234567",
-            password: "12345678",
-            confirmPassword: "12345678"
+            name: "",
+            email: "",
+            phone: "",
+            password: "",
+            confirmPassword: ""
         }
     });
 
