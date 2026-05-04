@@ -21,9 +21,9 @@ export const AppInputController = <T extends FieldValues>({
                 fieldState: { error },
                 formState: { isSubmitting }
             }) => <AppInput
-                    onChange={onChange}
-                    value={value}
+                    onChangeText={onChange}
                     onBlur={onBlur}
+                    value={value}
                     error={error?.message}
                     isDisabled={isSubmitting || rest.isDisabled}
                     {...rest}

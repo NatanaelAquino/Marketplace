@@ -1,49 +1,50 @@
-import { Pressable, TextInput, TouchableOpacity, View, Text, TextInputProps } from "react-native";
-import { AppInputVariants, appInputVariants } from "./input.variants";
-import { Ionicons } from "@expo/vector-icons";
-import { FC, use } from "react";
-import { useAppInputViewModel } from "./useAppInputViewModel";
+import { Ionicons } from '@expo/vector-icons'
+import { FC } from 'react'
+import {
+  Pressable,
+  Text,
+  TextInput,
+  TextInputProps,
+  TouchableOpacity,
+  View,
+} from 'react-native'
+import { AppInputVariantsProps, appInputVariants } from './input.variants'
+import { useAppInputViewModel } from './useAppInputViewModel'
 
-
-export interface AppInputProps extends TextInputProps, AppInputVariants {
-  label?: string;
-  letIcon?: keyof typeof Ionicons.glyphMap;
-  rightIcon?: keyof typeof Ionicons.glyphMap;
-  containerClassName?: string;
-  mask?: (value: string) => void | string;
+export interface AppInputProps extends TextInputProps, AppInputVariantsProps {
+  label?: string
+  leftIcon?: keyof typeof Ionicons.glyphMap
+  rightIcon?: keyof typeof Ionicons.glyphMap
+  containerClassName?: string
+  mask?: (value: string) => void | string
   error?: string
 }
 
-
 export const AppInput: FC<AppInputProps> = ({
   label,
-  letIcon,
+  leftIcon,
   rightIcon,
   containerClassName,
   mask,
   value,
   isError,
-  secureTextEntry = false,
+  secureTextEntry,
   onBlur,
   onFocus,
   onChangeText,
   error,
   isDisabled,
-
-  ...textInputPrps
+  ...textInputProps
 }) => {
-
-
   const {
     getIconColor,
     handleWrapperPress,
-    handlePasswordVisibility,
+    handlePasswordToggle,
+    showPassword,
     handleFocus,
     handleBlur,
-    inputRef,
+    handleTextChange,
     isFocused,
-    handleChangeText,
-    showPassword
   } = useAppInputViewModel({
     onBlur,
     onFocus,
@@ -54,45 +55,46 @@ export const AppInput: FC<AppInputProps> = ({
     secureTextEntry,
     value,
   })
-  const styles = appInputVariants({
-    isFocused,
-    isError: !!error,
-    isDisabled
-  })
+  const styles = appInputVariants({ isFocused, isDisabled, isError: !!error })
 
   return (
     <View className={styles.container({ className: containerClassName })}>
       <Text className={styles.label()}>{label}</Text>
       <Pressable className={styles.wrapper()}>
-        {letIcon && (
-          <Ionicons name={letIcon} size={20} color={getIconColor()} />
+        {leftIcon && (
+          <Ionicons
+            color={getIconColor()}
+            className="mr-3"
+            size={22}
+            name={leftIcon}
+          />
         )}
+
         <TextInput
           onBlur={handleBlur}
           onFocus={handleFocus}
-          className={styles.input()}
-          onChangeText={handleChangeText}
+          onChangeText={handleTextChange}
           value={value}
-          {...textInputPrps}
           secureTextEntry={showPassword}
+          className={styles.input()}
+          {...textInputProps}
         />
+
         {secureTextEntry && (
-          <TouchableOpacity activeOpacity={0.7} onPress={handlePasswordVisibility}>
+          <TouchableOpacity activeOpacity={0.7} onPress={handlePasswordToggle}>
             <Ionicons
-              name={showPassword ? "eye-outline" : "eye-off-outline"}
-              size={20}
-              color={getIconColor()}
+              size={22}
+              name={showPassword ? 'eye-outline' : 'eye-off-outline'}
             />
           </TouchableOpacity>
         )}
-
       </Pressable>
 
-      {
-        error && <Text className={styles.error()}>
-          <Ionicons name="alert-circle-outline" className="ml-2" />{error}
+      {error && (
+        <Text className={styles.error()}>
+          <Ionicons className="ml-2" name="alert-circle-outline" /> {error}
         </Text>
-      }
+      )}
     </View>
-  );
+  )
 }
