@@ -21,13 +21,13 @@ export const RegisterView: FC<ReturnType<typeof useRegisterView>> = ({
                 <AppInputController
                     control={control}
                     name="name"
-                    letIcon="person-outline"
+                    leftIcon="person-outline"
                     label="Nome"
                 />
                 <AppInputController
                     control={control}
                     name="phone"
-                    letIcon="call-outline"
+                    leftIcon="call-outline"
                     label="Telefone"
                 />
 
