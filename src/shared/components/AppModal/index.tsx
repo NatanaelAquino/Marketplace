@@ -4,7 +4,7 @@ import { useModalStore } from "../../store/modal-store";
 
 
 export const AppModal = () => {
-    const { isOpen, content, config } = useModalStore()
+    const { isOpen, close, content, config } = useModalStore()
 
     if (!isOpen || !content) {
         return null

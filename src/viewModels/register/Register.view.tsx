@@ -6,12 +6,13 @@ import { AuthFormHeader } from "../../shared/components/authFormHeader";
 import { router } from "expo-router";
 import { KeyboardContainer } from "../../shared/components/KeyboardContainer";
 import { AppButton } from "../../shared/components/AppButton";
+import { Ionicons } from "@expo/vector-icons";
 
 export const RegisterView: FC<ReturnType<typeof useRegisterView>> = ({
     onSubmit,
-    control
+    control,
+    showSelection
 }) => {
-
 
 
     return (
@@ -24,6 +25,9 @@ export const RegisterView: FC<ReturnType<typeof useRegisterView>> = ({
                     leftIcon="person-outline"
                     label="Nome"
                 />
+                <TouchableOpacity onPress={()=>showSelection()}>
+                    <Ionicons name="cloud-upload-outline" size={20} color="black" />
+                </TouchableOpacity>
                 <AppInputController
                     control={control}
                     name="phone"
