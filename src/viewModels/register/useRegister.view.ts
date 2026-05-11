@@ -6,6 +6,7 @@ import { useRegisterMutation } from "../../shared/queries/auth/user-register.mut
 import useUserStore from "../../shared/store/user-store";
 import { useAppModal } from "../../shared/hooks/useAppModal";
 import { useCamera } from "../../shared/hooks/useCamera";
+import { useGallery } from "../../shared/hooks/useGalery";
 
 export const useRegisterView = () => {
 
@@ -13,12 +14,12 @@ export const useRegisterView = () => {
     const { setSession, user } = useUserStore();
     const modals = useAppModal();
     const {openCamera} = useCamera({});
+    const {openGallery} = useGallery({});
     const showSelection = ()=>  modals.showSelection(
         {
             title: "Modal de seleção",
             options: [
-                { text: "Opção 1", icon: "home", variant: "secondary", onPress: () => console.log("Opção 1") },
-                { text: "Opção 2", icon: "home", variant: "primary", onPress: () => console.log("Opção 2") },
+                { text: "Opção 1", icon: "home", variant: "secondary", onPress: openGallery },
                 { text: "Opção 3", icon: "home", variant: "danger",onPress: openCamera },
             ]
         }
