@@ -5,25 +5,22 @@ import { RegisterData, registerSheme } from "./register.sheme";
 import { useRegisterMutation } from "../../shared/queries/auth/user-register.mutation";
 import useUserStore from "../../shared/store/user-store";
 import { useAppModal } from "../../shared/hooks/useAppModal";
-import { useCamera } from "../../shared/hooks/useCamera";
-import { useGallery } from "../../shared/hooks/useGalery";
+import { useImage } from "../../shared/hooks/useImage";
+import { useState } from "react";
+import { CameraType } from "expo-image-picker";
 
 export const useRegisterView = () => {
 
     const userRegisterMutation = useRegisterMutation();
     const { setSession, user } = useUserStore();
+    const [avatar, setAvatar] = useState<string | null>(null);
+
     const modals = useAppModal();
-    const {openCamera} = useCamera({});
-    const {openGallery} = useGallery({});
-    const showSelection = ()=>  modals.showSelection(
-        {
-            title: "Modal de seleção",
-            options: [
-                { text: "Opção 1", icon: "home", variant: "secondary", onPress: openGallery },
-                { text: "Opção 3", icon: "home", variant: "danger",onPress: openCamera },
-            ]
-        }
-    );
+    const {handleSelectImage} = useImage({
+        callback: setAvatar,
+        cameraType: CameraType.front,
+    });
+    const showSelection = async ()=> await handleSelectImage();
 
     const { control, handleSubmit, formState: { errors } } = useForm<RegisterData>({
         resolver: yupResolver(registerSheme),
@@ -47,14 +44,12 @@ export const useRegisterView = () => {
 
     });
 
-    console.log("User in RegisterView", user);
-
-
     return {
         control,
         onSubmit,
         errors,
-        showSelection
+        showSelection,
+        avatar
 
     }
 }

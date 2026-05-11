@@ -2,6 +2,7 @@ import { ImagePickerOptions } from "expo-image-picker"
 import { useCallback, useState } from "react"
 import * as ImagePicker from 'expo-image-picker';
 import { Toast } from 'toastify-react-native'
+import { Alert, Linking } from "react-native";
 
 
 export const useGallery = (pikerOptions: ImagePickerOptions) => {
@@ -15,7 +16,21 @@ export const useGallery = (pikerOptions: ImagePickerOptions) => {
             const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
             const currentStatus = status === 'granted'
             if (!currentStatus) {
-                Toast.error('Precisamos de permissão para acessar sua galeria', 'top')
+                Alert.alert(
+                    'Permissão negada',
+                    'Precisamos de preimissão para acessar sua galeria',
+                    [
+                        {
+                            text: "Cacnelar",
+                            style: "cancel"
+                        },
+                        {
+                            text: "Abrir configurações",
+                            onPress: () => {
+                               Linking.openSettings()
+                            }
+                        }
+                    ])
             }
             return status === 'granted'
         } catch (error) {
@@ -42,5 +57,5 @@ export const useGallery = (pikerOptions: ImagePickerOptions) => {
             return null
         }
     }, [])
-    return {openGallery, isLoading}
+    return { openGallery, isLoading }
 }

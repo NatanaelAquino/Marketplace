@@ -9,7 +9,6 @@ export const useLoginViewModel = () => {
 
     const {user} = useUserStore();
 
-    console.log(user)
     const { control, handleSubmit } = useForm<LoginData>({
         resolver: yupResolver(loginSheme),
         defaultValues: {
@@ -23,7 +22,6 @@ export const useLoginViewModel = () => {
 
     const onSubmit = handleSubmit(async (userFomaData: LoginData) => {
         const userData = await loginMutation.mutate(userFomaData)
-        console.log(userData)
     });
 
 

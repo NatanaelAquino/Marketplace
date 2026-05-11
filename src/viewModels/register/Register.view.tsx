@@ -1,4 +1,4 @@
-import { ScrollView, Text, TouchableOpacity, View } from "react-native";
+import { Image, ScrollView, Text, TouchableOpacity, View } from "react-native";
 import { useRegisterView } from "./useRegister.view";
 import { FC } from "react";
 import { AppInputController } from "../../shared/components/AppInputController";
@@ -11,7 +11,8 @@ import { Ionicons } from "@expo/vector-icons";
 export const RegisterView: FC<ReturnType<typeof useRegisterView>> = ({
     onSubmit,
     control,
-    showSelection
+    showSelection,
+    avatar
 }) => {
 
 
@@ -19,15 +20,24 @@ export const RegisterView: FC<ReturnType<typeof useRegisterView>> = ({
         <KeyboardContainer>
             <ScrollView className="flex-1 px-[40px]">
                 <AuthFormHeader title="Criar Conta" subtitle="Preencha os dados abaixo para criar sua conta" />
+                <TouchableOpacity
+                    onPress={() => showSelection()}
+                    className="w-[120px] h-[120px] rounded-[12px] items-center justify-center bg-shape self-center mb-8">
+                    {
+                        avatar ? (
+                            <Image className="w-full h-full rounded-[12px]"  source={{ uri: avatar }}  resizeMode="cover"/>
+                        ) : (
+                            <Ionicons name="cloud-upload-outline" size={32} />
+                        )
+                    }
+
+                </TouchableOpacity>
                 <AppInputController
                     control={control}
                     name="name"
                     leftIcon="person-outline"
                     label="Nome"
                 />
-                <TouchableOpacity onPress={()=>showSelection()}>
-                    <Ionicons name="cloud-upload-outline" size={20} color="black" />
-                </TouchableOpacity>
                 <AppInputController
                     control={control}
                     name="phone"
