@@ -5,20 +5,21 @@ import { RegisterData, registerSheme } from "./register.sheme";
 import { useRegisterMutation } from "../../shared/queries/auth/user-register.mutation";
 import useUserStore from "../../shared/store/user-store";
 import { useAppModal } from "../../shared/hooks/useAppModal";
+import { useCamera } from "../../shared/hooks/useCamera";
 
 export const useRegisterView = () => {
 
     const userRegisterMutation = useRegisterMutation();
     const { setSession, user } = useUserStore();
     const modals = useAppModal();
-
+    const {openCamera} = useCamera({});
     const showSelection = ()=>  modals.showSelection(
         {
             title: "Modal de seleção",
             options: [
                 { text: "Opção 1", icon: "home", variant: "secondary", onPress: () => console.log("Opção 1") },
                 { text: "Opção 2", icon: "home", variant: "primary", onPress: () => console.log("Opção 2") },
-                { text: "Opção 3", icon: "home", variant: "danger",onPress: () => console.log("Opção 3") }
+                { text: "Opção 3", icon: "home", variant: "danger",onPress: openCamera },
             ]
         }
     );
